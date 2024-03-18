@@ -1,0 +1,13 @@
+{
+    "id": "dawnofthered",
+    "name": "Dawn Of The Red",
+    "version": "1.01",
+    "target_game_version": "v1.9.07b",
+    "authors": "Nightbird",
+    "description": "This mod can cause a red lizard to spawn, basically turning every version of Lizard into Red Variants, which are significantly more dangerous.",
+    "youtube_trailer_id": "u-cuf39rK2g",
+    "requirements": ["spitanything", "lizardcustomizer", "simplespawnswapper"],
+    "requirements_names": ["Spit Anything", "Lizard Customizer", "Simple Spawn Swapper"],
+    "tags": ["Lizards"],
+    "checksum_override_version": false
+}
