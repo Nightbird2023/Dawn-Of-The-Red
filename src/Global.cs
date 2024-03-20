@@ -20,7 +20,6 @@ global using Fisobs.Properties;
 global using SlugBase.DataTypes;
 global using System.Runtime.CompilerServices;
 global using static Player;
-global using DressMySlugcat;
 global using static MoreSlugcats.SingularityBomb;
 global using System.Reflection;
 global using MoreSlugcats;

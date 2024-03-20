@@ -13,7 +13,7 @@
 
 	<Target Name="GenerateMod" AfterTargets="PostBuildEvent">
 		<ItemGroup>
-			<RemovePlugins Include="../mod/plugins/*.dll" />
+			<RemovePlugins Include="../mod/newest/plugins/*.dll" />
 			<RemovePDBs Include="$(OutDir)*.pdb" />
 		</ItemGroup>
 		<ItemGroup>
@@ -21,7 +21,7 @@
 			<CopyPDBs Include="$(OutDir)*.pdb" />
 		</ItemGroup>
 		<Delete Files="@(RemovePlugins)" />
-		<Copy SourceFiles="@(CopyPlugins);@(CopyPDBs)" DestinationFolder="../mod/plugins/" />
+		<Copy SourceFiles="@(CopyPlugins);@(CopyPDBs)" DestinationFolder="../mod/newest/plugins/" />
 	</Target>
     
 </Project>
