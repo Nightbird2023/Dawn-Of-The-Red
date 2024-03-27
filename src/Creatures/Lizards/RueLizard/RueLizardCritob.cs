@@ -14,9 +14,9 @@ public class RueLizardCritob : Critob
 
     public override ArtificialIntelligence CreateRealizedAI(AbstractCreature acrit) => new LizardAI(acrit, acrit.world);
 
-    public override Creature CreateRealizedCreature(AbstractCreature acrit) => new RueLizard(acrit, acrit.world);
+    public override Creature CreateRealizedCreature(AbstractCreature acrit) => new Lizard(acrit, acrit.world);
 
-    public override CreatureTemplate CreateTemplate() => LizardBreeds.BreedTemplate(Type, StaticWorld.GetCreatureTemplate(CreatureType.LizardTemplate), StaticWorld.GetCreatureTemplate(CreatureType.PinkLizard), StaticWorld.GetCreatureTemplate(CreatureType.BlueLizard), StaticWorld.GetCreatureTemplate(CreatureType.GreenLizard));
+    public override CreatureTemplate CreateTemplate() => LizardBreeds.BreedTemplate(Type, StaticWorld.GetCreatureTemplate(CreatureTemplate.Type.LizardTemplate), null, null, null);
 
     public override string DevtoolsMapName(AbstractCreature acrit) => "RueLizard";
 
@@ -38,8 +38,9 @@ public class RueLizardCritob : Critob
 
         self.Ignores(CreatureType.StandardGroundCreature);
         self.IgnoredBy(CreatureType.StandardGroundCreature);
-        self.HasDynamicRelationship(CreatureType.Slugcat, 0.5f);
-        self.FearedBy(CreatureType.Slugcat, 1f);
+        self.Eats(CreatureType.Slugcat, 1f);
+        //self.HasDynamicRelationship(CreatureType.Slugcat, 0.5f);
+        //self.FearedBy(CreatureType.Slugcat, 1f);
         self.Rivals(CreatureType.LizardTemplate, 0.1f);
         self.Rivals(CreatureType.PinkLizard, 0.1f);
         self.IgnoredBy(CreatureType.PinkLizard);

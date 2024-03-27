@@ -12,48 +12,17 @@ public class RueLizardHooks
 
     private static CreatureTemplate LizardBreeds_BreedTemplate_Type_CreatureTemplate_CreatureTemplate_CreatureTemplate_CreatureTemplate(On.LizardBreeds.orig_BreedTemplate_Type_CreatureTemplate_CreatureTemplate_CreatureTemplate_CreatureTemplate orig, CreatureType type, CreatureTemplate lizardAncestor, CreatureTemplate pinkTemplate, CreatureTemplate blueTemplate, CreatureTemplate greenTemplate)
     {
-        var result = orig(type, lizardAncestor, pinkTemplate, blueTemplate, greenTemplate);
-
         if (type == DorEnums.CreatureType.RueLizard)
         {
-            var lizardBreedParams = new LizardBreedParams(type)
-            {
-                terrainSpeeds = new LizardBreedParams.SpeedMultiplier[Enum.GetNames(typeof(AItile.Accessibility)).Length]
-            };
-            for (var i = 0; i < lizardBreedParams.terrainSpeeds.Length; i++)
-            {
-                lizardBreedParams.terrainSpeeds[i] = new LizardBreedParams.SpeedMultiplier(1.35f, 1f, 1f, 1f);
-            }
+            var temp = orig(CreatureType.BlueLizard, lizardAncestor, pinkTemplate, blueTemplate, greenTemplate);
+
+            var lizardBreedParams = (LizardBreedParams)temp.breedParameters;
+
+            temp.type = type;
+            temp.name = "RueLizard";
 
             lizardBreedParams.bodyRadFac = 1f;
             lizardBreedParams.pullDownFac = 1f;
-            var tileTypeResistances = new List<TileTypeResistance>();
-            var tileConnectionResistances = new List<TileConnectionResistance>();
-
-            lizardBreedParams.terrainSpeeds[1] = new LizardBreedParams.SpeedMultiplier(1.35f, 1.3f, 1.3f, 1.3f);
-            tileTypeResistances.Add(new TileTypeResistance(AItile.Accessibility.Floor, 1f, 0));
-
-            lizardBreedParams.terrainSpeeds[2] = new LizardBreedParams.SpeedMultiplier(1f, 1f, 1f, 1f);
-            tileTypeResistances.Add(new TileTypeResistance(AItile.Accessibility.Corridor, 1f, 0));
-
-            lizardBreedParams.terrainSpeeds[3] = new LizardBreedParams.SpeedMultiplier(1.2f, 1.35f, 1.3f, 1.3f);
-            tileTypeResistances.Add(new TileTypeResistance(AItile.Accessibility.Climb, 0.5f, 0));
-
-            lizardBreedParams.terrainSpeeds[4] = new LizardBreedParams.SpeedMultiplier(1.25f, 1.2f, 1.15f, 1.25f);
-            tileTypeResistances.Add(new TileTypeResistance(AItile.Accessibility.Wall, 0.5f, 0));
-
-            lizardBreedParams.terrainSpeeds[5] = new LizardBreedParams.SpeedMultiplier(1.05f, 1f, 1f, 1f);
-            tileTypeResistances.Add(new TileTypeResistance(AItile.Accessibility.Ceiling, 1f, 0));
-
-            lizardBreedParams.terrainSpeeds[6] = new LizardBreedParams.SpeedMultiplier(1f, 1f, 1f, 1f);
-
-            tileConnectionResistances.Add(new TileConnectionResistance(MovementConnection.MovementType.DropToFloor, 1f, 0));
-            tileConnectionResistances.Add(new TileConnectionResistance(MovementConnection.MovementType.DropToClimb, 1f, 0));
-            tileConnectionResistances.Add(new TileConnectionResistance(MovementConnection.MovementType.ShortCut, 1f, 0));
-            tileConnectionResistances.Add(new TileConnectionResistance(MovementConnection.MovementType.ReachOverGap, 1f, 0));
-            tileConnectionResistances.Add(new TileConnectionResistance(MovementConnection.MovementType.ReachUp, 1f, 0));
-            tileConnectionResistances.Add(new TileConnectionResistance(MovementConnection.MovementType.ReachDown, 1f, 0));
-            tileConnectionResistances.Add(new TileConnectionResistance(MovementConnection.MovementType.CeilingSlope, 1f, 0));
 
             lizardBreedParams.biteDelay = 1;
             lizardBreedParams.biteInFront = 22f;
@@ -127,36 +96,42 @@ public class RueLizardHooks
             lizardBreedParams.bodySizeFac = 1.1f;
             lizardBreedParams.limbSize = 0.95f;
             lizardBreedParams.bodyLengthFac = 1.05f;
-            lizardBreedParams.bodyMass = 1.95f;
+            lizardBreedParams.bodyMass = 0.95f;
             lizardBreedParams.limbQuickness = 0.7f;
             lizardBreedParams.wiggleSpeed = 1f;
             lizardBreedParams.baseSpeed = 4.05f;
+            lizardBreedParams.terrainSpeeds[1] = new(1.35f, 1.3f, 1.3f, 1.3f);
+            lizardBreedParams.terrainSpeeds[2] = new(1f, 1f, 1f, 1f);
+            lizardBreedParams.terrainSpeeds[3] = new(1.2f, 1.35f, 1.3f, 1.3f);
+            lizardBreedParams.terrainSpeeds[4] = new(1.25f, 1.35f, 1.3f, 1.3f);
+            lizardBreedParams.terrainSpeeds[5] = new(1.05f, 1f, 1f, 1f);
 
-            result = new CreatureTemplate(type, lizardAncestor, tileTypeResistances, tileConnectionResistances, new CreatureTemplate.Relationship(CreatureTemplate.Relationship.Type.Attacks, 0.5f))
-            {
-                name = "RueLizard",
-                waterPathingResistance = 5f,
-                visualRadius = 950f,
-                waterVision = 0.4f,
-                throughSurfaceVision = 0.85f,
-                breedParameters = lizardBreedParams,
-                baseDamageResistance = lizardBreedParams.toughness * 2f,
-                baseStunResistance = lizardBreedParams.toughness
+            temp.waterPathingResistance = 5f;
+            temp.visualRadius = 950f;
+            temp.waterVision = 0.4f;
+            temp.throughSurfaceVision = 0.85f;
+            temp.breedParameters = lizardBreedParams;
+            temp.baseDamageResistance = lizardBreedParams.toughness * 2f;
+            temp.baseStunResistance = lizardBreedParams.toughness;
 
-            };
-            result.damageRestistances[(int)Creature.DamageType.Bite, 0] = 2.5f;
-            result.damageRestistances[(int)Creature.DamageType.Bite, 1] = 3f;
-            result.meatPoints = 8;
-            result.doPreBakedPathing = false;
-            result.preBakedPathingAncestor = blueTemplate;
-            result.virtualCreature = false;
-            result.pickupAction = "Bite";
-            result.jumpAction = "Call";
-            result.throwAction = "Launch";
-            result.wormGrassImmune = false;
+            temp.damageRestistances[(int)Creature.DamageType.Bite, 0] = 2.5f;
+            temp.damageRestistances[(int)Creature.DamageType.Bite, 1] = 3f;
+            temp.meatPoints = 8;
+            temp.doPreBakedPathing = false;
+            temp.preBakedPathingAncestor = StaticWorld.GetCreatureTemplate(CreatureType.BlueLizard);
+            temp.requireAImap = true;
+            temp.virtualCreature = false;
+            temp.pickupAction = "Bite";
+            temp.jumpAction = "Call";
+            temp.throwAction = "Launch";
+            temp.wormGrassImmune = false;
+            temp.canSwim = true;
+            temp.dangerousToPlayer = 10f;
+
+            return temp;
         }
 
-        return result;
+        return orig(type, lizardAncestor, pinkTemplate, blueTemplate, greenTemplate);
     }
 
     private static void Lizard_ctor(On.Lizard.orig_ctor orig, Lizard self, AbstractCreature abstractCreature, World world)
