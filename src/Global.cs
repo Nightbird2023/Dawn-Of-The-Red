@@ -27,4 +27,5 @@ global using Menu.Remix.MixedUI;
 global using HUD;
 global using VoidSea;
 
+#pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]

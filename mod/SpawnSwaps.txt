@@ -1,0 +1,14 @@
+PinkLizard-RinkLizard(30%)3
+BlueLizard-RueLizard(30%)3
+BlackLizard-RackLizard(45%)3
+TrainLizard-RainLizard(20%)1
+RedLizard-RainLizard(15%)2
+GreenLizard-ReenLizard(50%)5
+YellowLizard-RellowLizard(50%)5
+WhiteLizard-RhiteLizard(25%)2
+EelLizard-ReelLizard(35%)3
+ZoopLizard-RoopLizard(35%)1
+CaramelLizard-RelamelLizard(30%)4
+CyanLizard-ReyanLizard(35%)5
+Salamander-Relamander(50%)5
+SporePlant-MaroonLizard(23%)3
