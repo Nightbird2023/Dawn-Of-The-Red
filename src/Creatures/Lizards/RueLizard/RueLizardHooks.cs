@@ -1,4 +1,7 @@
-﻿namespace DawnOfTheRed;
+﻿using LizardCosmetics;
+using static MonoMod.InlineRT.MonoModRule;
+
+namespace DawnOfTheRed;
 
 public class RueLizardHooks
 {
@@ -6,8 +9,189 @@ public class RueLizardHooks
     {
         On.Lizard.ctor += Lizard_ctor;
         On.LizardBreeds.BreedTemplate_Type_CreatureTemplate_CreatureTemplate_CreatureTemplate_CreatureTemplate += LizardBreeds_BreedTemplate_Type_CreatureTemplate_CreatureTemplate_CreatureTemplate_CreatureTemplate;
+        On.Lizard.Update += Lizard_Update;
+        On.LizardTongue.ctor += LizardTongue_ctor;
+        On.LizardGraphics.ctor += LizardGraphics_ctor;
 
         Debug.LogWarning("Rue Lizard Loading DawnOFTheRed");
+    }
+
+    private static void LizardGraphics_ctor(On.LizardGraphics.orig_ctor orig, LizardGraphics self, PhysicalObject ow)
+    {
+        orig(self, ow);
+
+        if (self.lizard.Template.type == DorEnums.CreatureType.RueLizard)
+        {
+            var state = Random.state;
+            Random.InitState(self.lizard.abstractCreature.ID.RandomSeed);
+            var num = self.startOfExtraSprites + self.extraSprites;
+            self.ivarBodyColor = Color.red;
+
+            //num = self.AddCosmetic(num, new Antennae(self, num));
+
+            if (Random.value < 0.9f)
+            {
+                num = self.AddCosmetic(num, new ShortBodyScales(self, num));
+            }
+            if (Random.value < 0.9f)
+            {
+                var e = new LongHeadScales(self, num)
+                {
+                    colored = false
+                };
+                e.numberOfSprites = e.scalesPositions.Length;
+                var value = Random.value;
+                var num2 = Mathf.Pow(Random.value, 0.45f);
+                for (var i = 0; i < e.scalesPositions.Length; i++)
+                {
+                    e.scaleObjects[i] = new LizardScale(e)
+                    {
+                        length = Mathf.Lerp(10f, 30f, num),
+                        width = Mathf.Lerp(1.0f, 1.4f, value * num)
+                    };
+                    e.backwardsFactors[i] = num2;
+                }
+                e.numberOfSprites = (e.colored ? (e.scalesPositions.Length * 2) : e.scalesPositions.Length);
+
+                num = self.AddCosmetic(num, e);
+            }
+            if (Random.value < 0.9f)
+            {
+                var e = new SpineSpikes(self, num)
+                {
+                    colored = 0,
+                    graphic = 4,
+                    spineLength = Mathf.Lerp(0.3f, 0.55f, Random.value) * 1
+                };
+                e.numberOfSprites = e.bumps;
+
+                num = self.AddCosmetic(num, e);
+            }
+            if (Random.value < 0.9f)
+            {
+                var e = new LongShoulderScales(self, num)
+                {
+                    rigor = 0f,
+                    graphic = 4
+                };
+                e.GeneratePatchPattern(0.2f, Random.Range(6, 9), 0.9f, 2f);
+                e.colored = false;
+                var num4 = 0f;
+                var num5 = 1f;
+                var num2 = Mathf.Lerp(1f, 1f / Mathf.Lerp(1f, (float)e.scalesPositions.Length, Mathf.Pow(Random.value, 2f)), 0.5f);
+                var num3 = Mathf.Lerp(5f, 15f, Random.value) * num2;
+                var b = Mathf.Lerp(num3, 35f, Mathf.Pow(Random.value, 0.5f)) * num2;
+                var p = Mathf.Lerp(0.1f, 0.9f, Random.value);
+                e.scaleObjects = new LizardScale[e.scalesPositions.Length];
+                e.backwardsFactors = new float[e.scalesPositions.Length];
+
+                for (var i = 0; i < e.scalesPositions.Length; i++)
+                {
+                    if (e.scalesPositions[i].y > num4)
+                    {
+                        num4 = e.scalesPositions[i].y;
+                    }
+                    if (e.scalesPositions[i].y < num5)
+                    {
+                        num5 = e.scalesPositions[i].y;
+                    }
+                }
+
+                for (var j = 0; j < e.scalesPositions.Length; j++)
+                {
+                    e.scaleObjects[j] = new LizardScale(e);
+                    var num6 = Mathf.Pow(Mathf.InverseLerp(num5, num4, e.scalesPositions[j].y), p);
+                    e.scaleObjects[j].length = (Mathf.Lerp(num3, b, Mathf.Lerp(Mathf.Sin(num6 * 3.1415927f), 1.1f, (num6 < 0.5f) ? 0.5f : 0.3f)));
+                    e.scaleObjects[j].width = (Mathf.Lerp(1.0f, 1.2f, Mathf.Lerp(Mathf.Sin(num6 * 3.1415927f), 1.1f, (num6 < 0.5f) ? 0.5f : 0.3f)) * num2);
+                    e.backwardsFactors[j] = e.scalesPositions[j].y * 0.7f;
+                }
+                e.numberOfSprites = (e.colored ? (e.scalesPositions.Length * 2) : e.scalesPositions.Length);
+
+                num = self.AddCosmetic(num, e);
+            }
+            if (Random.value < 0.9f)
+            {
+                var e = new AxolotlGills(self, num)
+                {
+                    graphic = 6
+                };
+                num = self.AddCosmetic(num, e);
+            }
+            if (Random.value < 0.9f)
+            {
+                num = self.AddCosmetic(num, new SnowAccumulation(self, num));
+            }
+            if (Random.value < 0.9f)
+            {
+                var e = new WingScales(self, num)
+                {
+                    graphic = (Random.value >= 0.4f) ? Random.Range(0, 5) : Random.Range(1, 5)
+                };
+                num = self.AddCosmetic(num, e);
+            }
+            if (Random.value < 0.9f)
+            {
+                num = self.AddCosmetic(num, new JumpRings(self, num));
+            }
+            if (Random.value < 0.9f)
+            {
+                num = self.AddCosmetic(num, new BodyStripes(self, num));
+            }
+            if (Random.value < 0.9f)
+            {
+                num = self.AddCosmetic(num, new BumpHawk(self, num));
+            }
+            if (Random.value < 0.9f)
+            {
+                num = self.AddCosmetic(num, new Whiskers(self, num));
+            }
+            if (Random.value < 0.9f)
+            {
+                num = self.AddCosmetic(num, new TailGeckoScales(self, num));
+            }
+            if (Random.value < 0.9f)
+            {
+                var e = new TailFin(self, num)
+                {
+                    colored = false
+                };
+                e.numberOfSprites = e.bumps * 2;
+                _ = self.AddCosmetic(num, e);
+            }
+
+            Random.state = state;
+        }
+    }
+
+    private static void LizardTongue_ctor(On.LizardTongue.orig_ctor orig, LizardTongue self, Lizard lizard)
+    {
+        orig(self, lizard);
+
+        if (lizard is RueLizard) 
+        {
+            self.range = 350f;
+            self.elasticRange = 0.1f;
+            self.lashOutSpeed = 30f;
+            self.reelInSpeed = 0.0043333336f;
+            self.chunkDrag = 0f;
+            self.terrainDrag = 0f;
+            self.dragElasticity = 0.1f;
+            self.emptyElasticity = 0.01f;
+            self.involuntaryReleaseChance = 0.0033333334f;
+            self.voluntaryReleaseChance = 1f;
+            self.baseDragOnly = true;
+            self.lizard.lizardParams.tongue = true;
+        }
+    }
+
+    private static void Lizard_Update(On.Lizard.orig_Update orig, Lizard self, bool eu)
+    {
+        orig(self, eu);
+
+        if (self is RueLizard && self.grabbedAttackCounter == 22 && self.JawReadyForBite && ((Random.value < self.lizardParams.getFreeBiteChance * Custom.LerpMap(self.grabbedBy[0].grabber.TotalMass, self.TotalMass, self.TotalMass * 3f, 1f, 0.1f) * self.LizardState.health && self.grabbedBy[0].grabber.Template.type != DorEnums.CreatureType.RueLizard && (self.grabbedBy[0].grabber.Template.type != CreatureType.Vulture || Random.value < 0.5f) && self.grabbedBy[0].grabber.Template.type != CreatureType.KingVulture) || (self.Template.type == DorEnums.CreatureType.RueLizard && Random.value < self.LizardState.health)))
+        {
+            self.DamageAttackClosestChunk(self.grabbedBy[0].grabber);
+        }
     }
 
     private static CreatureTemplate LizardBreeds_BreedTemplate_Type_CreatureTemplate_CreatureTemplate_CreatureTemplate_CreatureTemplate(On.LizardBreeds.orig_BreedTemplate_Type_CreatureTemplate_CreatureTemplate_CreatureTemplate_CreatureTemplate orig, CreatureType type, CreatureTemplate lizardAncestor, CreatureTemplate pinkTemplate, CreatureTemplate blueTemplate, CreatureTemplate greenTemplate)
@@ -29,13 +213,13 @@ public class RueLizardHooks
             lizardBreedParams.biteHomingSpeed = 1.85f;
             lizardBreedParams.biteChance = 0.9f;
             lizardBreedParams.attemptBiteRadius = 94f;
-            lizardBreedParams.getFreeBiteChance = 0.55f;
+            lizardBreedParams.getFreeBiteChance = 0.95f;
             lizardBreedParams.biteDamage = 1.45f;
             lizardBreedParams.biteDamageChance = 0.8f;
             lizardBreedParams.toughness = 2.45f;
             lizardBreedParams.stunToughness = 2.40f;
 
-            lizardBreedParams.aggressionCurveExponent = 0.005f;
+            lizardBreedParams.aggressionCurveExponent = 0.095f;
             lizardBreedParams.idleCounterSubtractWhenCloseToIdlePos = 0;
 
             lizardBreedParams.regainFootingCounter = 4;
@@ -82,11 +266,13 @@ public class RueLizardHooks
             lizardBreedParams.jawOpenMoveJawsApart = 20f;
             lizardBreedParams.headGraphics = new int[5];
             lizardBreedParams.framesBetweenLookFocusChange = 20;
+
             lizardBreedParams.tongue = true;
-            lizardBreedParams.tongueAttackRange = 540f;
-            lizardBreedParams.tongueWarmUp = 10;
-            lizardBreedParams.tongueSegments = 5;
+            lizardBreedParams.tongueAttackRange = 350f;
+            lizardBreedParams.tongueWarmUp = 8;
+            lizardBreedParams.tongueSegments = 10;
             lizardBreedParams.tongueChance = 0.55f;
+
             lizardBreedParams.tamingDifficulty = 9999f;
             lizardBreedParams.tailSegments = Random.Range(7, 9);
             lizardBreedParams.tailLengthFactor = 1.1f;
@@ -122,7 +308,7 @@ public class RueLizardHooks
             temp.requireAImap = true;
             temp.virtualCreature = false;
             temp.pickupAction = "Bite";
-            temp.jumpAction = "Call";
+            temp.jumpAction = "Tongue";
             temp.throwAction = "Launch";
             temp.wormGrassImmune = false;
             temp.canSwim = true;
@@ -140,6 +326,11 @@ public class RueLizardHooks
         if (self.Template.type == DorEnums.CreatureType.RueLizard)
         {
             self.effectColor = Custom.HSL2RGB(Custom.WrappedRandomVariation(0.0025f, 0.02f, 0.6f), 1f, Custom.ClampedRandomVariation(0.5f, 0.15f, 0.1f));
+        }
+
+        if(self.Template.type == DorEnums.CreatureType.RueLizard && self.lizardParams.tongue)
+        {
+            self.tongue = new LizardTongue(self);
         }
     }
 }
