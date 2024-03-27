@@ -6,8 +6,8 @@
     "authors": "Nightbird",
     "description": "This mod can cause a red lizard to spawn, basically turning every version of Lizard into Red Variants, which are significantly more dangerous.",
     "youtube_trailer_id": "u-cuf39rK2g",
-    "requirements": ["spitanything", "simplespawnswapper"],
-    "requirements_names": ["Spit Anything", "Simple Spawn Swapper"],
+    "requirements": ["spitanything", "simplespawnswapper", "fisobs"],
+    "requirements_names": ["Spit Anything", "Simple Spawn Swapper", "Fisobs"],
     "tags": ["Lizards"],
     "checksum_override_version": false
 }
