@@ -1,5 +1,4 @@
 ﻿using LizardCosmetics;
-using static MonoMod.InlineRT.MonoModRule;
 
 namespace DawnOfTheRed;
 
