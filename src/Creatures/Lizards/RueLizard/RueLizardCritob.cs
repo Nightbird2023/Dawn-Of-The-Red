@@ -14,7 +14,7 @@ public class RueLizardCritob : Critob
 
     public override ArtificialIntelligence CreateRealizedAI(AbstractCreature acrit) => new LizardAI(acrit, acrit.world);
 
-    public override Creature CreateRealizedCreature(AbstractCreature acrit) => new Lizard(acrit, acrit.world);
+    public override Creature CreateRealizedCreature(AbstractCreature acrit) => new RueLizard(acrit, acrit.world);
 
     public override CreatureTemplate CreateTemplate() => LizardBreeds.BreedTemplate(Type, StaticWorld.GetCreatureTemplate(CreatureTemplate.Type.LizardTemplate), null, null, null);
 
@@ -38,9 +38,10 @@ public class RueLizardCritob : Critob
 
         self.Ignores(CreatureType.StandardGroundCreature);
         self.IgnoredBy(CreatureType.StandardGroundCreature);
+        self.Attacks(CreatureType.Slugcat, 1f);
         self.Eats(CreatureType.Slugcat, 1f);
-        //self.HasDynamicRelationship(CreatureType.Slugcat, 0.5f);
-        //self.FearedBy(CreatureType.Slugcat, 1f);
+        self.HasDynamicRelationship(CreatureType.Slugcat, 0.5f);
+        self.FearedBy(CreatureType.Slugcat, 1f);
         self.Rivals(CreatureType.LizardTemplate, 0.1f);
         self.Rivals(CreatureType.PinkLizard, 0.1f);
         self.IgnoredBy(CreatureType.PinkLizard);
@@ -142,7 +143,7 @@ public class RueLizardCritob : Critob
         self.Eats(MoreSlugcatsEnums.CreatureTemplateType.HunterDaddy, 1f);
         self.IgnoredBy(MoreSlugcatsEnums.CreatureTemplateType.HunterDaddy);
         self.Eats(MoreSlugcatsEnums.CreatureTemplateType.FireBug, 0.25f);
-        self.EatenBy(MoreSlugcatsEnums.CreatureTemplateType.FireBug, 0.5f);   
+        self.EatenBy(MoreSlugcatsEnums.CreatureTemplateType.FireBug, 0.5f);
         self.Fears(MoreSlugcatsEnums.CreatureTemplateType.StowawayBug, 1f);
         self.EatenBy(MoreSlugcatsEnums.CreatureTemplateType.StowawayBug, 1f);
         self.Attacks(MoreSlugcatsEnums.CreatureTemplateType.ScavengerElite, 0.8f);

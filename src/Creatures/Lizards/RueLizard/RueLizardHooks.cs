@@ -35,7 +35,7 @@ public class RueLizardHooks
             lizardBreedParams.toughness = 2.45f;
             lizardBreedParams.stunToughness = 2.40f;
 
-            lizardBreedParams.aggressionCurveExponent = 10f;
+            lizardBreedParams.aggressionCurveExponent = 0.005f;
             lizardBreedParams.idleCounterSubtractWhenCloseToIdlePos = 0;
 
             lizardBreedParams.regainFootingCounter = 4;
@@ -83,11 +83,11 @@ public class RueLizardHooks
             lizardBreedParams.headGraphics = new int[5];
             lizardBreedParams.framesBetweenLookFocusChange = 20;
             lizardBreedParams.tongue = true;
-            lizardBreedParams.tongueAttackRange = 140f;
+            lizardBreedParams.tongueAttackRange = 540f;
             lizardBreedParams.tongueWarmUp = 10;
             lizardBreedParams.tongueSegments = 5;
-            lizardBreedParams.tongueChance = 0.25f;
-            lizardBreedParams.tamingDifficulty = 7.3f;
+            lizardBreedParams.tongueChance = 0.55f;
+            lizardBreedParams.tamingDifficulty = 9999f;
             lizardBreedParams.tailSegments = Random.Range(7, 9);
             lizardBreedParams.tailLengthFactor = 1.1f;
             lizardBreedParams.danger = 2f;
